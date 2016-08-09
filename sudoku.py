@@ -47,6 +47,14 @@ class Sudoku(Grid):
                 for j in self.quadrants.iterkeys():
                     self.check_for_quadrant_duplicates(i, j)
 
+    def check_for_invalid_digits(self):
+        """Check for any invalid digits in the grid."""
+        for i in range(self.n):
+            for j in range(self.n):
+                if self[i, j] not in range(self.n + 1):
+                    raise InvalidGridError("Error, input grid must contain "
+                                           "digits 0-9 only.")
+
     def check_for_row_duplicates(self, row):
         """Check for duplicates in specified row."""
         found_digits = set()
@@ -78,14 +86,6 @@ class Sudoku(Grid):
                         "".format(x, y))
                 else:
                     found_digits.add(self[i, j])
-
-    def check_for_invalid_digits(self):
-        """Check for any invalid digits in the grid."""
-        for i in range(self.n):
-            for j in range(self.n):
-                if self[i, j] not in range(self.n):
-                    raise InvalidGridError("Error, input grid must contain"
-                                           "digits 0-9 only.")
 
     def solve(self):
         """Completely solve a given input Sudoku."""
